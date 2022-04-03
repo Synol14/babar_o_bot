@@ -14,6 +14,6 @@ module.exports = {
         /// Logging
         client.logger.blankLine();
         client.logger.blankLine();
-        client.logger.info(`Bot Ready ( ${client.user.tag} - ${client.user.id} )\n\n`);
+        client.logger.info(`Bot Ready ( ${client.user.tag} - ${client.user.id} )\n\n`.green);
     }
 }

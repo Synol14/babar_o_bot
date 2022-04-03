@@ -6,7 +6,6 @@ const Jsoning = require("jsoning");
 //const { Server } = require("socket.io");
 const http = require("http");
 const Express = require("express");
-require('dotenv').config();
 
 class DiscordBot extends Client {
 
@@ -20,7 +19,7 @@ class DiscordBot extends Client {
         this.logger = new Logger();
 
         if (process.env.BOT_TOKEN == "")
-            return new TypeError( "The botconfig.js is not filled out. Please make sure nothing is blank, otherwise the bot will not work properly." );
+            return new TypeError( 'The botconfig.js is not filled out. Please make sure nothing is blank, otherwise the bot will not work properly.'.red );
         
         this.LoadCommands();
         this.LoadEvents();
@@ -35,7 +34,7 @@ class DiscordBot extends Client {
 
     LoadCommands() {
         this.logger.blankLine();
-        this.logger.info('   << Commands Loading ... >>');
+        this.logger.info('   << Commands Loading ... >>'.bold.yellow);
         const dir = path.join(__dirname, "..", "commands");
         this.commands.clear();
         readdirSync(dir).forEach(dirs => {
@@ -53,7 +52,7 @@ class DiscordBot extends Client {
 
     LoadEvents() {
         this.logger.blankLine();
-        this.logger.info('   << Events Loading ... >>');
+        this.logger.info('   << Events Loading ... >>'.bold.yellow);
         const dir = path.join(__dirname, "..", "events");
         readdirSync(dir).forEach(dirs => {
             const eventFiles = readdirSync(`${dir}/${dirs}/`).filter(file => file.endsWith('.js'));
@@ -77,9 +76,7 @@ class DiscordBot extends Client {
           .setTitle("An error occured")
           .setColor("RED")
           .setDescription(error)
-          .setFooter(
-            "If you think this as a bug, please report it in the support server!"
-          );
+          .setFooter( "If you think this as a bug, please report it in the support server!" );
     
         channel.send(embed);
       }
@@ -96,7 +93,7 @@ class DiscordBot extends Client {
     
       async RegisterSlashCommands() {
         this.logger.blankLine();
-        this.logger.info('   << Slash Commands Posting ... >>');
+        this.logger.info('   << Slash Commands Posting ... >>'.bold.yellow);
         const guilds = this.database.addedCommands.get('guilds');
         guilds.forEach((guild) => require("../util/RegisterSlashCommand")(this, guild));
         this.guilds.cache.forEach((guild) => {

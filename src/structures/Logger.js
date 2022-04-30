@@ -6,16 +6,21 @@ class Logger {
 
     }
 
+    log(message) { return this.info(message); }
+    
     info(message) {
         console.log('['+'Info'.blue+`] ${message}`);
+        return this;
     }
 
     error(message) {
         console.error('['+'Error'.red+`] ${message}`);
+        return this;
     }
 
     blankLine() {
         console.log(' ');
+        return this;
     }
 
     /**
@@ -24,7 +29,8 @@ class Logger {
      * @param {String} message Message to log
      */
     infoInteraction(interaction, message) {
-        this.info(`[${interaction.id}]`.grey +` ${message}`)
+        this.info(`[${interaction.id}]`.grey +` ${message}`);
+        return this;
     }
 
     /**
@@ -33,7 +39,8 @@ class Logger {
     * @param {String} message Message to log
     */
     errorInteraction(interaction, message) {
-        this.error(`[${interaction.id}]`.grey +` ${message}`)
+        this.error(`[${interaction.id}]`.grey +` ${message}`);
+        return this;
     }
 
     /**
@@ -45,6 +52,7 @@ class Logger {
         const msg = '['+`App_Cmd - ${interaction.commandId}`.magenta +`]  The \'${interaction.commandName}\' command has been use with  ${state}`;
         if (state.startsWith('SUCCES')) this.infoInteraction(interaction, msg);
         else this.errorInteraction(interaction, msg);
+        return this;
     }
     
 }

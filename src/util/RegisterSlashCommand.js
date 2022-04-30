@@ -1,8 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders");
-const { REST } = require("@discordjs/rest");
 const { Client } = require("discord.js");
-const { Routes } = require('discord-api-types/v9');
-const fs = require("fs");
+const { readdirSync } = require("fs");
 const path = require("path");
 
 /**
@@ -11,12 +8,11 @@ const path = require("path");
  * @param {string} guildId
  */
 module.exports = (client, guildId) => {
-  client.logger.info("-> Registering slash commands for Guild " + guildId);
-
+  client.logger.info(`-> Registering slash commands for Guild ${guildId}`.italic);
   const dir = path.join(__dirname, "..", "commands");
-  fs.readdirSync(dir).forEach(dirs => {
-    const commands = fs.readdirSync(`${dir}/${dirs}/`).filter(files => files.endsWith('.js'));
-    for (const file of commands) {
+  readdirSync(dir).forEach(dirs => {
+    const commands = readdirSync(`${dir}/${dirs}/`).filter(files => files.endsWith('.js'));
+    commands.forEach(async (file) => {
       const cmd = require(`${dir}/${dirs}/${file}`);
       if (!cmd.name || !cmd.description || !cmd.run) return;
       const dataStuff = {
@@ -24,13 +20,16 @@ module.exports = (client, guildId) => {
         description: cmd.description,
         options: cmd.options,
       };
-      
-      const command = [new SlashCommandBuilder().setName(cmd.name).setDescription(cmd.description)];
-      if (cmd.options) command[0].options = cmd.options;
-      const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
-      rest.put(Routes.applicationGuildCommands(process.env.APPLICATION_ID, guildId), { body: command })
-        .then(() => client.logger.info('['+'Slash Command'.magenta +']: ['+'POST'.cyan +'] '+`Guild ${guildId}, Command: ${dataStuff.name}`))
-        .catch(err => client.logger.error('['+'Slash Command'.magenta +']: ['+'POST-FAILED'.red +'] '+`Guild ${guildId}, Command: ${dataStuff.name} \n${err}`));
-    }
+
+      let clientAPI = client.api.applications(process.env.APPLICATION_ID);
+      let guildAPI = clientAPI.guilds(guildId);
+
+      client.logger.info('['+'Slash Command'.magenta +']: ['+'POST'.cyan +'] '+`Guild ${guildId}, Command: ${dataStuff.name}`);
+      try {
+        await guildAPI.commands.post({ data: dataStuff });
+      } catch (err) {
+        client.logger.error('['+'Slash Command'.magenta +']: ['+'POST-FAILED'.red +'] '+`Guild ${guildId}, Command: ${cmd.name} \n-->  ${err}`);
+      }
+    });
   });
-};
+}

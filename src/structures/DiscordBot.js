@@ -32,9 +32,10 @@ class DiscordBot extends Client {
         //require("../api/socket")(this.io);
     }
 
+    
+
     LoadCommands() {
-        this.logger.blankLine();
-        this.logger.info('   << Commands Loading ... >>'.bold.yellow);
+        this.logger.blankLine().info('   << Commands Loading ... >>'.bold.yellow);
         const dir = path.join(__dirname, "..", "commands");
         this.commands.clear();
         readdirSync(dir).forEach(dirs => {
@@ -51,8 +52,7 @@ class DiscordBot extends Client {
     }
 
     LoadEvents() {
-        this.logger.blankLine();
-        this.logger.info('   << Events Loading ... >>'.bold.yellow);
+        this.logger.blankLine().info('   << Events Loading ... >>'.bold.yellow);
         const dir = path.join(__dirname, "..", "events");
         readdirSync(dir).forEach(dirs => {
             const eventFiles = readdirSync(`${dir}/${dirs}/`).filter(file => file.endsWith('.js'));
@@ -81,7 +81,7 @@ class DiscordBot extends Client {
         channel.send(embed);
       }
 
-      build() {
+    build() {
         this.login(process.env.BOT_TOKEN);
         if (process.env.ExpressServer) {
             this.http.listen(process.env.PORT, () => {
@@ -89,17 +89,14 @@ class DiscordBot extends Client {
                 this.logger.blankLine();
             });
         }
-      }
+    }
     
-      async RegisterSlashCommands() {
-        this.logger.blankLine();
-        this.logger.info('   << Slash Commands Posting ... >>'.bold.yellow);
-        const guilds = this.database.addedCommands.get('guilds');
-        guilds.forEach((guild) => require("../util/RegisterSlashCommand")(this, guild));
-        this.guilds.cache.forEach((guild) => {
-            require("../util/RegisterSlashCommand")(this, guild.id);
-        });
-      }
+    RegisterSlashCommands() {
+        this.logger.blankLine().info('   << Slash Commands Posting ... >>'.bold.yellow).info('-> Posting started ...'.italic.gray);
+        this.guilds.fetch().then( (guilds) => {
+            guilds.map((guild) => require("../util/RegisterSlashCommand")(this, guild.id));
+        })
+    }
 
 }
 

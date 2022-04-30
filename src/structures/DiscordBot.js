@@ -16,7 +16,7 @@ class DiscordBot extends Client {
         this.database = {
             addedCommands: new Jsoning('.database/addedCommands.json')
         }
-        this.logger = new Logger();
+        this.logger = new Logger('.logs/all.log');
 
         if (process.env.BOT_TOKEN == "")
             return new TypeError( 'The botconfig.js is not filled out. Please make sure nothing is blank, otherwise the bot will not work properly.'.red );

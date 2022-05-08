@@ -14,7 +14,8 @@ class DiscordBot extends Client {
 
         this.commands = new Collection();
         this.database = {
-            addedCommands: new Jsoning('.database/addedCommands.json')
+            addedCommands: new Jsoning('.database/addedCommands.json'),
+            surveys: new Jsoning('.database/surveys.json')
         }
         this.logger = new Logger('.logs/all.log');
 
@@ -42,8 +43,8 @@ class DiscordBot extends Client {
             const commands = readdirSync(`${dir}/${dirs}/`).filter(files => files.endsWith('.js'));
             for (const file of commands) {
                 const cmd = require(`${dir}/${dirs}/${file}`);
-                if (!cmd.name || !cmd.description || !cmd.run)
-                    return this.log( `Unable to load Command: ${file.split(".")[0]}, Reason: File doesn't had run/name/desciption` );
+                if (!cmd.name || !cmd.run)
+                    return this.logger.error( `Unable to load Command: ${file.split(".")[0]}, Reason: File doesn't had run/name/desciption` );
                 this.commands.set(cmd.name.toLowerCase(), cmd)
                 this.logger.info(`-> Command loaded: ${cmd.name}`);
             }

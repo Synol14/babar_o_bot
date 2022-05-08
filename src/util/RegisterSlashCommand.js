@@ -14,11 +14,13 @@ module.exports = (client, guildId) => {
     const commands = readdirSync(`${dir}/${dirs}/`).filter(files => files.endsWith('.js'));
     commands.forEach(async (file) => {
       const cmd = require(`${dir}/${dirs}/${file}`);
-      if (!cmd.name || !cmd.description || !cmd.run) return;
+      if (!cmd.name || !cmd.run) return;
       const dataStuff = {
         name: cmd.name,
+        type: cmd.type ? cmd.type : 1,
         description: cmd.description,
         options: cmd.options,
+        default_permission: cmd.default_permission,
       };
 
       let clientAPI = client.api.applications(process.env.APPLICATION_ID);

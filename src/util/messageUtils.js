@@ -11,12 +11,15 @@ const { Client, MessageEmbed, User, Channel, Interaction, CommandInteraction } =
 
 /**
  * Get an Embed with a Title and a Color
- * @param {String} string Embed Title
+ * @param {String} title Embed Title
  * @param {String} color Embed Color (Hex)
+ * @param {String} description Embed Description
  * @return {MessageEmbed} Embed
  */
- module.exports.getEmbed = (string, color) => {
-    return new MessageEmbed().setColor(color).setTitle(string);
+ module.exports.getEmbed = (title, color, description = null) => {
+    const embed = new MessageEmbed().setColor(color).setTitle(title);
+    if (description) embed.setDescription(description);
+    return embed;
 }
 
 /**

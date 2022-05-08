@@ -4,9 +4,11 @@ const { getBotColor, ephemeralEmbedReply, getEmbed } = require("../../util/messa
 
 module.exports = {
     name: 'clear',
+    type: 1,
     description: 'Delete a specific number of messages',
     defer: false,
     ephemeral: true,
+    default_permission: false,
     options: [
         {
             type: 4,
@@ -52,33 +54,32 @@ module.exports = {
         if (number < 1 || number > 100) return ephemeralEmbedReply(interaction, getEmbed("You must indicate a number from 1 to 10 !", process.env.RED));
         if (only && keep_only) return ephemeralEmbedReply(interaction, getEmbed("Only and KeepOnly parameters is not compatible !", process.env.RED));
 
+        /// Run
         interaction.channel.messages.fetch({ limit: number })
-                .then(fetched => {
-                    let messages;
-                    /// Sort Nopin
-                    if (nopin) messages = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
-                    else messages = fetched;
-                    /// Sort Only
-                    if (only) {
-                        if (only.toString().search(/[&]/g) == 2) messages = messages.filter(msg => msg.member.roles.cache.some(role => role.id === only.id));
-                        else messages = messages.filter(msg => msg.author.id == only.id);
-                    }
-                    /// Sort Keep_Only
-                    else if (keep_only) {
-                        if (keep_only.toString().search(/[&]/g) == 2) messages = messages.filter(msg => msg.member.roles.cache.some(role => role.id === keep_only.id));
-                        else messages = messages.filter(msg => msg.author.id != keep_only.id);
-                    }
+            .then(fetched => {
+                let messages;
+                /// Sort Nopin
+                if (nopin) messages = fetched.filter(fetchedMsg => !fetchedMsg.pinned);
+                else messages = fetched;
+                /// Sort Only
+                if (only) {
+                    if (only.toString().search(/[&]/g) == 2) messages = messages.filter(msg => msg.member.roles.cache.some(role => role.id === only.id));
+                    else messages = messages.filter(msg => msg.author.id == only.id);
+                }
+                /// Sort Keep_Only
+                else if (keep_only) {
+                    if (keep_only.toString().search(/[&]/g) == 2) messages = messages.filter(msg => msg.member.roles.cache.some(role => role.id === keep_only.id));
+                    else messages = messages.filter(msg => msg.author.id != keep_only.id);
+                }
 
-                    interaction.channel.bulkDelete(messages, true)
-                        .then(msg => ephemeralEmbedReply(interaction, getEmbed(`${msg.size} messages has been deleted !`, getBotColor(client, interaction.guildId))))
-                        .catch(err => getErrorLog(interaction, err));
-                })
-                .catch(err => console.log(getErrorLog(interaction, err)));
-
-        getBotColor(client, interaction.guildId);
+                interaction.channel.bulkDelete(messages, true)
+                    .then(msg => ephemeralEmbedReply(interaction, getEmbed(`${msg.size} messages has been deleted !`, getBotColor(client, interaction.guildId))))
+                    .catch(err => getErrorLog(interaction, err));
+            })
+            .catch(err => console.log(getErrorLog(interaction, err)));
     }
 }
 
 function getErrorLog(interaction, err) {
-    return `[ERROR]  [App_Cmd - ${interaction.id}]  An error occurred while executing the \'${interaction.commandName}\' command -- ${err}`;
+    interaction.client.logger.errorIteraction('['+`App_Cmd - ${interaction.commandId}`.magenta +`]  An error occurred while executing the \'${interaction.commandName}\' command \n${err}`);
 }

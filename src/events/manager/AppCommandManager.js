@@ -9,11 +9,8 @@ module.exports = {
      * @param {Interaction} interaction
      */
     async run(interaction) {
-        /// Quit if not a command
-        if (!interaction.isCommand()) return;
-
         /// Get Data
-        const { commandName, options, id } = interaction;
+        const { commandName, options } = interaction;
 
         /// Geting command
         const command = interaction.client.commands.get(commandName);

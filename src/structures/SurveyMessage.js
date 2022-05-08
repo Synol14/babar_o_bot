@@ -93,7 +93,14 @@ class SurveyMessage {
      * @param {SurveyMessage} suveryMessage
      */
     MessageSent(message, suveryMessage) {
-        const object = { messageId: message.id, choices: [], data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], members: [] }
+        const object = { 
+            messageId: message.id, 
+            type: 'custom',
+            title: suveryMessage.title,
+            member: suveryMessage.interaction.member.user.username, 
+            choices: [], 
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+            members: [] }
         for (const choice of suveryMessage.choices) object.choices[suveryMessage.choices.indexOf(choice)] = choice;
         message.client.database?.surveys.set(suveryMessage.id, object);
 

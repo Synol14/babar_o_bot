@@ -65,7 +65,7 @@ class SurveyMessage {
                 text: this.interaction.member.displayName,
                 iconURL: this.interaction.member.displayAvatarURL()
             })
-        if (this.description) this.embed.setDescription(description.concat('\n­'));
+        if (this.description) this.embed.setDescription(this.description.concat('\n­'));
 
         const message = { 
             embeds: [this.embed], 
@@ -94,33 +94,19 @@ class SurveyMessage {
      */
     MessageSent(message, suveryMessage) {
         const object = { 
+            id: suveryMessage.id,
             messageId: message.id, 
+            channelId: message.channelId,
             type: 'custom',
             title: suveryMessage.title,
+            description: suveryMessage.description,
             member: suveryMessage.interaction.member.user.username, 
             choices: [], 
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
             members: [] }
         for (const choice of suveryMessage.choices) object.choices[suveryMessage.choices.indexOf(choice)] = choice;
         message.client.database?.surveys.set(suveryMessage.id, object);
-
-        /// Create Button Listener
-        const filter = i => new RegExp(`(${suveryMessage.id}_)[0-9]+`).test(i.customId);
-        const collector = suveryMessage.interaction.channel.createMessageComponentCollector({ filter });
-        collector.on('collect', async button => {
-            const id = parseInt( button.customId.replace(`${suveryMessage.id}_`, '') );
-            const dbObject = message.client.database.surveys.get(suveryMessage.id);
-            if (!dbObject.members.find(i => i == button.member.user.username)) 
-            {
-                dbObject.data[id] != null ? dbObject.data[id]++ : dbObject.data[id] = 1;
-                dbObject.members.push(button.member.user.username);
-                message.client.database?.surveys.set(suveryMessage.id, dbObject);
-                button.reply({content: `${button.member.user.username} voted !`, ephemeral: true});
-            } 
-            else button.reply({content: `Sorry, but you can't vote again !`, ephemeral: true});
-        });
     }
-
 }
 
 module.exports = SurveyMessage;

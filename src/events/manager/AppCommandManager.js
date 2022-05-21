@@ -9,6 +9,9 @@ module.exports = {
      * @param {Interaction} interaction
      */
     async run(interaction) {
+        /// Checking
+        if (!interaction.isApplicationCommand()) return;
+
         /// Get Data
         const { commandName, options } = interaction;
 

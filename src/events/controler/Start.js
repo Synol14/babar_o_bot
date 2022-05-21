@@ -9,7 +9,6 @@ module.exports = {
      */
     async run(client) {
         /// Set Bot
-        //resetAllMusicObject(client);
 
         /// Logging
         client.logger.blankLine();

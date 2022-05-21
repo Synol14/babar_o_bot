@@ -16,31 +16,32 @@ module.exports = {
      * @param {CommandInteractionOptionResolver} options Application Command Options
      */
     run: async function(client, interaction, options) {
+        const db = client.database.surveys.all();
+
         const embed = new MessageEmbed()
             .setTitle('Close a survey')
-            .setDescription("Once a survey is closed, you receive the results but you cannot go back.")
+            .setDescription(Object.values(db).length != 0 ? "Once a survey is closed, you receive the results but you cannot go back." : "There is no survey.")
             .setColor(getBotColor(client, interaction.guildId));
 
-        const selector = new MessageSelectMenu()
-            .setCustomId('select')
-            .setPlaceholder('Please select a survey');
+        if (Object.values(db).length != 0) {
+            const selector = new MessageSelectMenu()
+                .setCustomId('survey-close')
+                .setPlaceholder('Please select a survey');
 
-        const db = client.database.surveys.all();
-        for (const obj of Object.values(db)) {
-            console.log(obj);
-            const emoji = obj.type == 'yes-no' ? '✔❌' : '📩';
-            selector.addOptions([
-                {
+            for (const obj of Object.values(db)) {
+                const emoji = obj.type == 'yes-no' ? '🎭' : '📩';
+                selector.addOptions([{
                     label: `${emoji} ${obj.title}`,
-                    value: `${obj.id}`
-                }
-            ])
-        }
-        const row = new MessageActionRow().addComponents(selector);
+                    value: `${obj.id}`,
+                }])
+            }
+            const row = new MessageActionRow().addComponents(selector);
+            var message = {
+                embeds: [embed], 
+                components: [row]
+            }
+        } else var message = { embeds: [embed] }
 
-        interaction.editReply({
-            embeds: [embed], 
-            components: [row]
-        })
+        interaction.editReply(message);
     }
 }

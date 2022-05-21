@@ -15,7 +15,6 @@ module.exports = {
             Object.values(db)
                 .filter( obj => new RegExp(`(${obj.id}_)[0-9]+`).test(button.customId) )
                 .forEach(obj => {
-                    button.client.logger.info(`Survey button pressed for ${obj.title} !`)
                     const id = parseInt( button.customId.replace(`${obj.id}_`, '') );
                     const dbObject = button.client.database.surveys.get(obj.id);
                     if (!dbObject.members.find(i => i == button.member.user.username)) 

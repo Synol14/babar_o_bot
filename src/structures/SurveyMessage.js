@@ -14,6 +14,7 @@ class SurveyMessage {
         this.description = null;
         this.choices = [];
         this.emijiChoices = [];
+        this.type = 'custom',
         this.id = `${Date.now()}-${interaction.id}`;
         this.isClosed = false;
         this.row = new MessageActionRow();
@@ -25,6 +26,14 @@ class SurveyMessage {
      */
     setTitle(title) {
         this.title = title.replace('\\n', '\n');
+        return this;
+    }
+
+    /**
+     * @param {String} type Survey type
+     */
+    setType(type) {
+        this.type = type;
         return this;
     }
 
@@ -97,10 +106,10 @@ class SurveyMessage {
             id: suveryMessage.id,
             messageId: message.id, 
             channelId: message.channelId,
-            type: 'custom',
+            type: suveryMessage.type,
             title: suveryMessage.title,
             description: suveryMessage.description,
-            member: suveryMessage.interaction.member.user.username, 
+            memberId: suveryMessage.interaction.member.user.id, 
             choices: [], 
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
             members: [] }

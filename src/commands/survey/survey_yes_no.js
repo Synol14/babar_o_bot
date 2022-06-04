@@ -35,6 +35,7 @@ module.exports = {
         if (interaction.isMessageContextMenu()) {
             var message = interaction.options.getMessage('message');
             title = message.content;
+            message.delete();
         } else {
             title = options.getString('title');
             description = options.getString('description', false);
@@ -43,7 +44,7 @@ module.exports = {
         /// Run
         new SurveyMessage(interaction, title)
             .setDescription(description)
-            .setMember(interaction.isMessageContextMenu() ? interaction.member : interaction.member)
+            .setMember(interaction.isMessageContextMenu() ? message.member : interaction.member)
             .setType('yes-no')
             .setChoices([
                 '✔ Yes',

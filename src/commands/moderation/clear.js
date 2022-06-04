@@ -15,7 +15,7 @@ module.exports = {
             name: "number",
             value: "name",
             description: "Mumber of messages",
-            required: true
+            required: false
         },
         {
             type: 5,
@@ -44,7 +44,8 @@ module.exports = {
      */
     run: async function(client, interaction, options) {
         /// Get all Options
-        const number = options.getInteger('number', true);
+        let number = options.getInteger('number', false);
+        if (!number) number = 100;
         const nopin = options.getBoolean('nopin', false);
         const only = options.getMentionable('only', false);
         const keep_only = options.getMentionable('keep_only', false);

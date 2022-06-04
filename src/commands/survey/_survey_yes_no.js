@@ -13,6 +13,6 @@ module.exports = {
      * @param {CommandInteractionOptionResolver} options Application Command Options
      */
     run: async function(client, interaction, options) {
-        ///     /!\  do nothing because this command is also a slash command 
+        ///     /!\  do nothing because this command is also managed in slash command file
     }
 }

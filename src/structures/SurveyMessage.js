@@ -118,7 +118,7 @@ class SurveyMessage {
             type: suveryMessage.type,
             title: suveryMessage.title,
             description: suveryMessage.description,
-            memberId: suveryMessage.interaction.member.user.id, 
+            memberId: suveryMessage.member.user.id, 
             choices: [], 
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
             members: [] }

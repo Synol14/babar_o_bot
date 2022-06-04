@@ -95,7 +95,7 @@ class DiscordBot extends Client {
     RegisterSlashCommands() {
         this.logger.blankLine().info('   << Slash Commands Posting ... >>'.bold.yellow).info('-> Posting started ...'.italic.gray);
         this.guilds.fetch().then( (guilds) => {
-            guilds.map((guild) => require("../util/RegisterSlashCommand")(this, guild.id));
+            guilds.map((guild) => require("../util/RegisterApplicationCommand")(this, guild.id));
         })
     }
 

@@ -21,6 +21,8 @@ module.exports = {
                     
                     const channel = await selectMenu.guild.channels.fetch(obj.channelId);
                     let embed = new MessageEmbed()
+
+                    // try disable suvery buttons
                     try {
                         /**
                          * @var msg 
@@ -35,21 +37,25 @@ module.exports = {
                         }
                     } catch (error) {}
 
+                    // calcul
                     let total = 0;
                     for (const data of obj.data) total += data;
                     let desciption = '';
                     for (const choice of obj.choices) {
                         const index = obj.choices.indexOf(choice)
-                        result = obj.data[index] / total * 100;
+                        result = total == 0 ? 0 : obj.data[index] / total * 100;
                         desciption += `*${choice} :* \`${Math.round(result)}%\` (${obj.data[index]}) \n`
                     }
 
+                    // Set embed
                     embed.setTitle(`__Results :__ ${obj.title}`)
                         .setColor('#00a13b')
                         .setDescription(desciption)
 
+                    // clear db
                     selectMenu.client.database.surveys.delete(obj.id);
 
+                    // send results
                     selectMenu.reply({ embeds: [embed] })
                 });
     }

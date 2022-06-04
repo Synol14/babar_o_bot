@@ -1,4 +1,4 @@
-const { MessageActionRow, MessageEmbed, Interaction, MessageButton, Message } = require("discord.js");
+const { MessageActionRow, MessageEmbed, Interaction, MessageButton, Message, GuildMember } = require("discord.js");
 const { getBotColor } = require("../util/messageUtils");
 
 
@@ -14,7 +14,8 @@ class SurveyMessage {
         this.description = null;
         this.choices = [];
         this.emijiChoices = [];
-        this.type = 'custom',
+        this.type = 'custom';
+        this.member = interaction.member;
         this.id = `${Date.now()}-${interaction.id}`;
         this.isClosed = false;
         this.row = new MessageActionRow();
@@ -34,6 +35,14 @@ class SurveyMessage {
      */
     setType(type) {
         this.type = type;
+        return this;
+    }
+
+    /**
+     * @param {GuildMember} member Survey Author
+     */
+    setMember(member) {
+        this.member = member;
         return this;
     }
 
@@ -71,8 +80,8 @@ class SurveyMessage {
             .setColor(getBotColor(this.interaction.client, this.interaction.guildId))
             .setTimestamp(Date.now())
             .setFooter({
-                text: this.interaction.member.displayName,
-                iconURL: this.interaction.member.displayAvatarURL()
+                text: this.member.displayName,
+                iconURL: this.member.displayAvatarURL()
             })
         if (this.description) this.embed.setDescription(this.description.concat('\n­'));
 

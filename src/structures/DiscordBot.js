@@ -21,7 +21,7 @@ class DiscordBot extends Client {
 
         if (process.env.BOT_TOKEN == "")
             return new TypeError( 'The botconfig.js is not filled out. Please make sure nothing is blank, otherwise the bot will not work properly.'.red );
-        
+
         this.LoadCommands();
         this.LoadEvents();
 
@@ -33,7 +33,7 @@ class DiscordBot extends Client {
         //require("../api/socket")(this.io);
     }
 
-    
+
 
     LoadCommands() {
         this.logger.blankLine().info('   << Commands Loading ... >>'.bold.yellow);
@@ -84,7 +84,7 @@ class DiscordBot extends Client {
 
     build() {
         this.login(process.env.BOT_TOKEN);
-        if (process.env.ExpressServer) {
+        if (process.env.ExpressServer === false) {
             this.http.listen(process.env.PORT, () => {
                 this.logger.info("Web Server has been started");
                 this.logger.blankLine();

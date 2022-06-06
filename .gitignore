@@ -1,4 +1,4 @@
 /node_modules/
 .env
-.database/*
-.logs/*
+.database/*.json
+.logs/*.log

@@ -1,5 +1,6 @@
 const { Interaction } = require("discord.js");
 //const { getEmbed, embedReply } = require("../../structures/Utils");
+//const { RED } = require('../../../resources/config')
 
 module.exports = {
     name: 'interactionCreate',
@@ -21,7 +22,7 @@ module.exports = {
         /// Execute
         let state = 'SUCCESS'
         if (!command) {
-            //await embedReply(interaction, getEmbed('Command no Done !', process.env.RED), true, true);
+            //await embedReply(interaction, getEmbed('Command no Done !', RED), true, true);
             state = 'FAIL (No Done)';
         }
         else {
@@ -30,7 +31,7 @@ module.exports = {
                 await command.run(interaction.client, interaction, options);
             } catch (error) {
                 console.error(error);
-                //await embedReply(interaction, getEmbed('Command Error !', process.env.RED), true, true);
+                //await embedReply(interaction, getEmbed('Command Error !', RED), true, true);
                 state = `FAIL ( ${error} )`;
             } finally {
                 /// Log Command

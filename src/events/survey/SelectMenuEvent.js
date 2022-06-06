@@ -1,5 +1,6 @@
 const { SelectMenuInteraction, MessageEmbed, Message } = require("discord.js");
 const { getEmbed } = require("../../util/messageUtils");
+const { RED } = require('../../../resources/config')
 
 module.exports = {
     name: 'interactionCreate',
@@ -17,7 +18,7 @@ module.exports = {
                 .filter(obj => obj.id == selectMenu.values[0])
                 .forEach(async obj => {
                     if (selectMenu.member.user.id != obj.memberId) 
-                        return selectMenu.reply({embeds: [getEmbed("You didn't have created this survey !", process.env.RED)], ephemeral: true});
+                        return selectMenu.reply({embeds: [getEmbed("You didn't have created this survey !", RED)], ephemeral: true});
                     
                     const channel = await selectMenu.guild.channels.fetch(obj.channelId);
                     let embed = new MessageEmbed()

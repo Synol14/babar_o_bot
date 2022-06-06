@@ -84,7 +84,7 @@ class DiscordBot extends Client {
 
     build() {
         this.login(process.env.BOT_TOKEN);
-        if (process.env.ExpressServer === false) {
+        if (process.env.ExpressServer === true) {
             this.http.listen(process.env.PORT, () => {
                 this.logger.info("Web Server has been started");
                 this.logger.blankLine();

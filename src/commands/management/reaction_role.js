@@ -1,6 +1,7 @@
-const { CommandInteraction, CommandInteractionOptionResolver, GuildChannel } = require("discord.js");
+const { CommandInteraction, CommandInteractionOptionResolver } = require("discord.js");
 const DiscordBot = require("../../structures/DiscordBot");
 const { getEmbed } = require("../../util/messageUtils");
+const { getDatabase, setDatabase, getEmojiFromRoleId } = require('../../util/roleManager')
 
 module.exports = {
     name: 'rection_role',
@@ -92,8 +93,8 @@ module.exports = {
         const reaction = options.getString("reaction");
 
         // Verification
-        if (message_id === null || reaction === null)  return interaction.editReply({embeds:[getEmbed("You must fill parameter ...", require('../../../resources/config').RED)]}); // For an unexplained required option problem
-        if (!require('emoji-regex')().test(reaction) && !/<:.+:(\d+)>/gm.test(reaction) && !/<a:.+:(\d+)>/gm.test(reaction)) return interaction.editReply({embeds:[getEmbed("I can't read reaction ...", require('../../../resources/config').RED)]});
+        if (message_id === null || reaction === null)  return interaction.editReply({embeds:[getEmbed(" You must fill parameter ...", require('../../../resources/config').RED)]}); // For an unexplained required option problem
+        if (!require('emoji-regex')().test(reaction) && !/<:.+:(\d+)>/gm.test(reaction) && !/<a:.+:(\d+)>/gm.test(reaction)) return interaction.editReply({embeds:[getEmbed(" I can't read reaction ...", require('../../../resources/config').RED)]});
 
         // Apply
         if (subCmd === "add") add(client, interaction, options, message_id, reaction);
@@ -118,28 +119,32 @@ async function add(client, interaction, options, message_id, reaction) {
     const no_role3 = options.getRole("no_role3", false);
     const no_role4 = options.getRole("no_role4", false);
 
+    const no_role_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role?.id);
+    const no_role2_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role2?.id);
+    const no_role3_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role3?.id);
+    const no_role4_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role4?.id);
+
     // verification
-    if (role === null) return interaction.editReply({embeds:[getEmbed("You must fill parameter ...", require('../../../resources/config').RED)]}); // For an unexplained required option problem
-    if (role === interaction.guild.roles.everyone)  return interaction.editReply({embeds:[getEmbed("You can't select @everyone ...", require('../../../resources/config').RED)]});
+    if (role === null) return interaction.editReply({embeds:[getEmbed(" You must fill parameter ...", require('../../../resources/config').RED)]}); // For an unexplained required option problem
+    if (role === interaction.guild.roles.everyone)  return interaction.editReply({embeds:[getEmbed(" You can't select @everyone ...", require('../../../resources/config').RED)]});
+    if (no_role_emoji === null || no_role2_emoji === null || no_role3_emoji === null || no_role4_emoji === null) return interaction.editReply({embeds:[getEmbed(" No_roles are not used in this message ...", require('../../../resources/config').RED)]});
 
     // Apply
-    const db = client.database.reactionRole.get(`${interaction.guildId}.${message_id}`);
+    const db = getDatabase(client, interaction.guildId, message_id);
     const emoji = db.find(obj => obj.emoji == reaction);
-    if (emoji) return interaction.editReply({embeds:[getEmbed("This rection is already used ...", require('../../../resources/config').RED)]});
-
-    console.log(reaction);
+    if (emoji) return interaction.editReply({embeds:[getEmbed(" This rection is already used ...", require('../../../resources/config').RED)]});
 
     const object = {
         emoji: reaction,
         role: role.id,
-        no_roles: [no_role, no_role2, no_role3, no_role4]
+        no_roles: [no_role_emoji, no_role2_emoji, no_role3_emoji, no_role4_emoji]
     }
 
     db.push(object);
-    client.database.reactionRole.set(`${interaction.guildId}.${message_id}`, db);
+    setDatabase(client, interaction.guildId, message_id, db);
 
     (await interaction.channel.messages.fetch(message_id)).react(reaction)
-    interaction.editReply("**Done !** ( " + reaction + " **->** " + role + " )");
+    interaction.editReply("**Done !**    ( " + reaction + "   ->   " + role + " )");
 }
 
 /**
@@ -150,4 +155,18 @@ async function add(client, interaction, options, message_id, reaction) {
  */
 async function remove(client, interaction, options, message_id, reaction) {
     
+    const db = getDatabase(client, interaction.guildId, message_id);
+    const emoji = db.find(obj => obj.emoji == reaction);
+    if (!emoji) return interaction.editReply({embeds:[getEmbed(" This rection is not used ...", require('../../../resources/config').RED)]});
+
+    db.splice(db.findIndex(o => o.emoji === reaction), 1);
+    for (const obj of db) {
+        if (obj.no_roles.includes(reaction)) obj.no_roles.splice(obj.no_roles.findIndex(reaction), 1);
+    }
+    setDatabase(client, interaction.guildId, message_id, db);
+
+    (await interaction.channel.messages.fetch(message_id)).reactions.resolve(reaction)?.remove();
+    interaction.editReply(" **Done !**    ( " + reaction + "   **─❌─>**   " /*+ role */+ " )");
 }
+
+

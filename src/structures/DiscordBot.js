@@ -15,7 +15,9 @@ class DiscordBot extends Client {
         this.commands = new Collection();
         this.database = {
             addedCommands: new Jsoning('.database/addedCommands.json'),
-            surveys: new Jsoning('.database/surveys.json')
+            surveys: new Jsoning('.database/surveys.json'),
+            reactionRole: new Jsoning('.database/reactionRole.json'),
+
         }
         this.logger = new Logger('.logs/all.log');
 

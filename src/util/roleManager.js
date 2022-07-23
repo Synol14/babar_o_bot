@@ -2,18 +2,16 @@ const DiscordBot = require("../structures/DiscordBot");
 
 module.export = {
     /**
-     * 
      * @param {DiscordBot} client Bot Client
      * @param {String} guildId Guild Id
      * @param {String} messageId Message Id
      * @returns 
      */
     getDatabase: function (client, guildId, messageId) {
-        return client.database.reactionRole.get(`${guildId}.${messageId}`);
+        return client.database.reactionRole.has(`${guildId}.${messageId}`) ? client.database.reactionRole.get(`${guildId}.${messageId}`) : null;
     },
     
     /**
-     * 
      * @param {DiscordBot} client Bot Client
      * @param {String} guildId Guild Id
      * @param {String} messageId Message Id
@@ -25,7 +23,6 @@ module.export = {
     },
     
     /**
-     * 
      * @param {DiscordBot} client Bot Client
      * @param {String} guildId Guild Id
      * @param {String} messageId Message Id
@@ -41,7 +38,6 @@ module.export = {
     },
     
     /**
-     * 
      * @param {DiscordBot} client Bot Client
      * @param {String} guildId Guild Id
      * @param {String} messageId Message Id
@@ -54,5 +50,21 @@ module.export = {
             if (obj.emoji === emoji) return obj.role;
         }
         return null;
+    },
+
+    /**
+     * @param {DiscordBot} client Bot Client
+     * @param {String} guildId Guild Id
+     * @param {String} messageId Message Id
+     * @returns 
+     */
+    isRoleReaction: function (client, guildId, messageId, reaction) {
+        return this.isRoleReaction(this.getDatabase(client, guildId, messageId), reaction)
+    },
+    isRoleReaction: function (database, reaction) {
+        for (const obj of database) {
+            if (obj.emoji === reaction) return true;
+        }
+        return false;
     }
 }

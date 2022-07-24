@@ -63,17 +63,17 @@ module.exports = {
                     {
                         emoji: '🥇',
                         role: message.guild.roles.cache.find(role => role.name === '🥇 GEII 1ère année').id,     //'1000405693754527814', //'883373013934932019',
-                        no_roles: ['🥈', `${Peip_emoji.animated ? 'a' : ''}<:${Peip_emoji.identifier}>`]
+                        no_roles: ['🥈']
                     },
                     {
                         emoji: '🥈',
                         role: message.guild.roles.cache.find(role => role.name === '🥈 GEII 2ème année').id,     //'1000405730052018327', //'883373406714753094',
-                        no_roles: ['🥇', `${Peip_emoji.animated ? 'a' : ''}<:${Peip_emoji.identifier}>`]
+                        no_roles: ['🥇']
                     },
                     {
                         emoji: `${Peip_emoji.animated ? 'a' : ''}<:${Peip_emoji.identifier}>`,
                         role: message.guild.roles.cache.find(role => role.name === '⚙ Peip').id,                //'1000405766936744087', //'1000403437990715463',
-                        no_roles: ['🥇', '🥈']
+                        no_roles: []
                     },
                     {
                         emoji: '🇦',

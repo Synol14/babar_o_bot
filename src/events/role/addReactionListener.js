@@ -45,13 +45,10 @@ module.exports = {
                 if (noRoleEmoji.startsWith('<:') || noRoleEmoji.startsWith('a<:')) var _noRoleEmoji = noRoleEmoji.split(':')[2].replace('>', '');
                 else var _noRoleEmoji = noRoleEmoji;
                 let react = reaction.message.reactions.resolve(_noRoleEmoji);
-                /*if (react === null) {
-                    const emoji = reaction.message.guild.emojis.cache.find(emoji => emoji.name === noRoleEmoji.split(':')[1]);
-                    react = reaction.message.reactions.resolve(emoji.id);
-                }*/
+                
                 react?.users.remove(member.id);
             }
-            // else notifie in modlog channel (todo)            
+            // else notifie in modlog channel (todo)
         }
 
     }

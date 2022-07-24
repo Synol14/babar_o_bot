@@ -119,18 +119,18 @@ async function add(client, interaction, options, message_id, reaction) {
     const no_role3 = options.getRole("no_role3", false);
     const no_role4 = options.getRole("no_role4", false);
 
-    const no_role_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role?.id);
-    const no_role2_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role2?.id);
-    const no_role3_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role3?.id);
-    const no_role4_emoji = getEmojiFromRoleId(client, interaction.guildId, message_id, no_role4?.id);
+    const db = getDatabase(client, interaction.guildId, message_id);
+
+    const no_role_emoji = getEmojiFromRoleId(db, no_role?.id);
+    const no_role2_emoji = getEmojiFromRoleId(db, no_role2?.id);
+    const no_role3_emoji = getEmojiFromRoleId(db, no_role3?.id);
+    const no_role4_emoji = getEmojiFromRoleId(db, no_role4?.id);
 
     // verification
     if (role === null) return interaction.editReply({embeds:[getEmbed(" You must fill parameter ...", require('../../../resources/config').RED)]}); // For an unexplained required option problem
     if (role === interaction.guild.roles.everyone)  return interaction.editReply({embeds:[getEmbed(" You can't select @everyone ...", require('../../../resources/config').RED)]});
-    if (no_role_emoji === null || no_role2_emoji === null || no_role3_emoji === null || no_role4_emoji === null) return interaction.editReply({embeds:[getEmbed(" No_roles are not used in this message ...", require('../../../resources/config').RED)]});
-
+    
     // Apply
-    const db = getDatabase(client, interaction.guildId, message_id);
     const emoji = db.find(obj => obj.emoji == reaction);
     if (emoji) return interaction.editReply({embeds:[getEmbed(" This rection is already used ...", require('../../../resources/config').RED)]});
 

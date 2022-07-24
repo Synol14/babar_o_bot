@@ -2,7 +2,7 @@ const { MessageReaction, User } = require("discord.js");
 const { getDatabase, isRoleReaction, isCustomEmoji, getRoleIdFromEmoji, getNoRolesIdFromEmoji, getEmojiFromRoleId } = require("../../util/roleManager");
 
 module.exports = {
-    name: 'messageReactionAdd',
+    name: 'messageReactionRemove',
     once: false,
     /**
      * Execute Event
@@ -26,22 +26,12 @@ module.exports = {
 
         const roleId = getRoleIdFromEmoji(db, emoji);
         if (roleId === null) return;
-        const noRoles = getNoRolesIdFromEmoji(db, emoji);
         const role = reaction.message.guild.roles.cache.find(r => r.id === roleId);
         const member = reaction.message.guild.members.resolve(user.id);
 
         if (!member) return;
-        if (role.editable) member.roles.add(role);
+        if (role.editable) member.roles.remove(role);
         // else notifie in modlog channel (todo)
-
-        for (const noRoleEmoji of noRoles) {
-            const noRoleId = getRoleIdFromEmoji(db, noRoleEmoji);
-            if (noRoleId === null) break;
-            const noRole = reaction.message.guild.roles.resolve(noRoleId);
-            if (role.editable) member.roles.remove(noRole);
-            // else notifie in modlog channel (todo)
-            reaction.message.reactions.resolve(noRoleEmoji)?.users.remove(member.id);
-        }
 
     }
 }

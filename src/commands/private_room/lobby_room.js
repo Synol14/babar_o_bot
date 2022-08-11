@@ -1,7 +1,7 @@
-const { CommandInteraction, CommandInteractionOptionResolver, GuildVoiceChannelResolvable, MessageEmbed, TextInputComponent, MessageActionRow, SelectMenuInteraction, MessageSelectMenu, MessageButton } = require("discord.js");
+const { CommandInteraction, CommandInteractionOptionResolver } = require("discord.js");
 const DiscordBot = require("../../structures/DiscordBot");
 const { ephemeralMessageReply } = require("../../util/messageUtils");
-const { messages } = require("../role_reaction/util/messageSelectMenu");
+const { messages } = require("./util/messageSelectMenu");
 
 module.exports = {
     name: 'lobby_room',

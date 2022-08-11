@@ -1,5 +1,5 @@
 const { SelectMenuInteraction } = require("discord.js");
-const { messages } = require("../../commands/role_reaction/util/messageSelectMenu");
+const { messages } = require("../../commands/private_room/util/messageSelectMenu");
 const DiscordBot = require("../../structures/DiscordBot");
 
 module.exports = {
@@ -49,7 +49,7 @@ async function lobby(client, interaction) {
  * @param {DiscordBot} client
  * @param {SelectMenuInteraction} interaction
  */
- async function lobby(client, interaction) {
+ async function interface(client, interaction) {
     let value = interaction.values[0];
 
     if (value === 'default') {

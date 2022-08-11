@@ -13,26 +13,6 @@ module.exports.messages = {
                 })
             }
         })
-        /*let selectMenuOptions = [
-            {
-                label: 'Create one for me ...',
-                value: 'default',
-                description: '',
-                emoji: '😉'
-            }
-        ]
-    
-        const channels = interaction.guild.channels.cache.values()
-        for (const channel of channels) {
-            if (channel.isVoice()) {
-                selectMenuOptions.push({
-                    label: channel.name,
-                    value: channel.id,
-                    description: channel.parent.name,
-                    emoji: '🔊'
-                })
-            }
-        }*/
         
         interaction.reply({
             ephemeral: true,

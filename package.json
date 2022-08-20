@@ -4,7 +4,7 @@
   "description": "GEII BDE Bot",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"No test\" && exit 0",
+    "test": "echo \"BOT_TOKEN=${process.env.BOT_TOKEN}\" >> .env && exit 0",
     "start": "node src/index.js"
   },
   "repository": {

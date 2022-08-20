@@ -55,9 +55,9 @@ module.exports.sendMessageForDelete = async (channel, message, time) => {
  * @param {Interaction} interaction Application Command Interaction
  * @param {Object} msg Object to reply
  */
-module.exports.ephemeralReply = async (interaction, msg) => {
-    if (typeof msg == MessageEmbed) await this.ephemeralEmbedReply(interaction, msg);
-    else if (typeof msg == String) await this.ephemeralMessageReply(interaction, msg);
+module.exports.ephemeralReply = (interaction, msg) => {
+    if (typeof msg == MessageEmbed) this.ephemeralEmbedReply(interaction, msg);
+    else if (typeof msg == String) this.ephemeralMessageReply(interaction, msg);
 }
 
 /**

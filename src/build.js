@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-fs.appendFile('../.env', 
+fs.appendFile('.env', 
 `BOT_TOKEN=${process.env.BOT_TOKEN}
 APPLICATION_ID=${process.env.APPLICATION_ID}`,
 function (err) {

@@ -24,7 +24,7 @@ module.exports = {
             .setDescription("Il suffit simplement d'ajouter une réaction correspondant à vos rôles.")
             .addField('Obligatoire :', `🥇 - 1ère année\n🥈 - 2ème année\n${interaction.guild.emojis.cache.find(emoji => emoji.name === 'Peip')} - Peip `)
             .addField('Pour les premières années :', `:regional_indicator_a: - TD A\n:regional_indicator_b: - TD B\n:regional_indicator_c: - TD C\n:regional_indicator_d: - TD D`)
-            .addField('Pour les deuxièmes années :', `${interaction.guild.emojis.cache.find(emoji => emoji.name === 'ESE')} - ESE\n${interaction.guild.emojis.cache.find(emoji => emoji.name === 'AII')} - AII\n⚡ - EME\n👨‍🏭 - Alternant`)
+            .addField('Pour les deuxièmes années :', `1️⃣ - Init 1\n2️⃣ - Init 2\n3️⃣ - Init 3\n4️⃣ - Init 4\n${interaction.guild.emojis.cache.find(emoji => emoji.name === 'ESE')} - ESE\n${interaction.guild.emojis.cache.find(emoji => emoji.name === 'AII')} - AII\n⚡ - EME\n👨‍🏭 - Alternant`)
             .addField('Autres rôles :', `🍺 - Fétard\n${interaction.guild.emojis.cache.find(emoji => emoji.name === 'Sportif')} - Sportif\n🎵 - Musicien\n🏨 - Espacil\n🕵️‍♂️ - Externe`)
             .addField('Jeux :', "Il y a un émoji par jeu. (d'autres pourront arriver)")
             .setThumbnail("https://cdn.discordapp.com/attachments/747195335239008307/761304615710752768/logo-GEII.png"/*interaction.guild.iconURL()*/)
@@ -48,6 +48,10 @@ module.exports = {
                 message?.react('🇧');
                 message?.react('🇨');
                 message?.react('🇩');
+                message?.react('1️⃣');
+                message?.react('2️⃣');
+                message?.react('3️⃣');
+                message?.react('4️⃣');
                 message?.react(ESE_emoji);
                 message?.react(AII_emoji);
                 message?.react('⚡');
@@ -94,6 +98,26 @@ module.exports = {
                         emoji: '🇩',
                         role: message.guild.roles.cache.find(role => role.name === 'TD D').id,                   //'1000405880774328330', //'743825714737840188',
                         no_roles: ['🇦', '🇧', '🇨']
+                    },
+                    {
+                        emoji: '1️⃣',
+                        role: message.guild.roles.cache.find(role => role.name === 'Init 1').id,
+                        no_roles: ['2️⃣', '3️⃣', '4️⃣']
+                    },
+                    {
+                        emoji: '2️⃣',
+                        role: message.guild.roles.cache.find(role => role.name === 'Init 2').id,
+                        no_roles: ['1️⃣', '3️⃣', '4️⃣']
+                    },
+                    {
+                        emoji: '3️⃣',
+                        role: message.guild.roles.cache.find(role => role.name === 'Init 3').id,
+                        no_roles: ['1️⃣', '2️⃣', '4️⃣']
+                    },
+                    {
+                        emoji: '4️⃣',
+                        role: message.guild.roles.cache.find(role => role.name === 'Init 4').id, 
+                        no_roles: ['1️⃣', '2️⃣', '3️⃣']
                     },
                     {
                         emoji: `${ESE_emoji.animated ? 'a' : ''}<:${ESE_emoji.identifier}>`,

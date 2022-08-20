@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"No tests !\" && exit 0",
-    "build": "node src/index.js",
+    "build": "node src/build.js",
     "start": "node src/index.js"
   },
   "repository": {

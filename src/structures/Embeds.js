@@ -7,5 +7,6 @@ module.exports = {
     USER_NO_IN_CHANNEL: getEmbed("🔊 You are not in voice channel !", RED),
     SONG_NO_FOUND: getEmbed(":x: I don't found song with this index !", RED),
     NO_QUEUE: (client, guildId) => { return getEmbed("🙁 I don't have queue !", getBotColor(client, guildId)) },
-    NO_VOICE_CHANNEL: getEmbed(":x: I'm not in voice channel !", RED),
+    NO_VOICE_CHANNEL: getEmbed(":x: It's not a voice channel !", RED),
+    NO_VOICE_CHANNEL_OR_CATEGORY: getEmbed(":x: It's not a voice channel or category !", RED),
 }

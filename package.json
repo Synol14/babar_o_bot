@@ -4,7 +4,8 @@
   "description": "GEII BDE Bot",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No tests !\" && exit 0",
+    "build": "node src/build.js",
     "start": "node src/index.js"
   },
   "repository": {

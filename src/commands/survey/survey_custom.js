@@ -51,7 +51,7 @@ module.exports = {
             type: 3,
             required: false
         }, // choice5
-        {
+        /*{
             name: "choice6",
             description: "Set choice 6",
             type: 3,
@@ -80,7 +80,7 @@ module.exports = {
             description: "Set choice 10",
             type: 3,
             required: false
-        } // choice10
+        } // choice10 */
     ],
     /**
      * Run Method for Slash Command Interaction

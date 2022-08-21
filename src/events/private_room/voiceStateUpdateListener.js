@@ -20,9 +20,6 @@ module.exports = {
         }
         // join a voice channel
         else {
-            // leave a room empty
-            if (oldState.channelId != null && db.get('rooms')?.includes(oldState.channelId) && oldState.channel.members.size === 0) deleteRoom(oldState, db);
-
             // join lobby
             if (db.get('lobbies')?.includes(newState.channelId)) {
                 await newState.guild.channels

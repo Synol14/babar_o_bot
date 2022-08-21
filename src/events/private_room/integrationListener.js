@@ -37,8 +37,9 @@ async function lobby(client, interaction) {
             .then(channel => value = channel.id);
     }
 
-    if (!client.database.privateRooms.get('lobbies').includes(value)) {
+    if (!client.database.privateRooms.get('lobbies')?.includes(value)) {
         ///messages.interface(interaction); 
+        interaction.reply({content: 'Done !', ephemeral: true})
         client.database.privateRooms.push('lobbies', value);
     }
     else interaction.reply({content: 'This channel is already a lobby', ephemeral: true})

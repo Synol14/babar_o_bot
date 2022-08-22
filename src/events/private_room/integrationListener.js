@@ -25,6 +25,7 @@ module.exports = {
  */
 async function lobby(client, interaction) {
     let value = interaction.values[0];
+    interaction.deferReply();
 
     if (value === 'default') {
         await interaction.guild
@@ -39,7 +40,7 @@ async function lobby(client, interaction) {
 
     if (!client.database.privateRooms.get('lobbies')?.includes(value)) {
         ///messages.interface(interaction); 
-        interaction.reply({content: 'Done !', ephemeral: true})
+        interaction.deleteReply();
         client.database.privateRooms.push('lobbies', value);
     }
     else interaction.reply({content: 'This channel is already a lobby', ephemeral: true})

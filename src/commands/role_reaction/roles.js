@@ -33,17 +33,21 @@ module.exports = {
         interaction.deferReply();
 
         try {
-            const webhooks = await interaction.channel.fetchWebhooks();
-		    let webhook = await webhooks.find(wh => wh.token);
+            const webhooks = await interaction.guild.fetchWebhooks();
+		    let webhook = webhooks.find(wh => wh.name === `DoNotDeleteMe - ${interaction.client.user.tag}`);
 
-            if (webhook === undefined) webhook = await interaction.channel.createWebhook(interaction.guild.name);
+            if (webhook === undefined) {
+                webhook = await interaction.channel.createWebhook(`DoNotDeleteMe - ${interaction.client.user.tag}`);
+            }
 
+            await webhook.edit({channel: interaction.channelId});
             await webhook.send({
                 username: interaction.guild.name,
                 avatarURL: interaction.guild.iconURL(),
                 embeds: [embed]
             })
-            /*interaction.channel.send({ embeds: [embed] })*/.then(message => {
+            /*interaction.channel.send({ embeds: [embed] })*/
+            .then(message => {
 
                 const Peip_emoji = message.guild.emojis.cache.find(emoji => emoji.name === 'Peip');
                 const ESE_emoji = message.guild.emojis.cache.find(emoji => emoji.name === 'ESE');
@@ -175,7 +179,7 @@ module.exports = {
                     }
                 ]);
             });
-        } catch (error) { }
+        } catch (error) { console.log(error); }
 
         interaction.deleteReply();
     }

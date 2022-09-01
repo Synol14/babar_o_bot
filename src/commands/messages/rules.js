@@ -61,7 +61,7 @@ module.exports = {
                     embeds: rulesEmbeds
                 })
                 .then(m => m.react(verifyEmoji).catch(err => err));
-                interaction.editReply(`Please wait 8 min the second message will be sent...`)
+                interaction.editReply(`Please wait 8 min the second message will be sent ...`)
                 await sleep(460000);
                 await webhook.send({
                     username: interaction.guild.name,

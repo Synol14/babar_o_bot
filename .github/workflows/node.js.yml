@@ -6,6 +6,9 @@ name: Node.js CI
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - '.logs/**'
+      - '.database/**'
 
 env:
   BOT_TOKEN: ${{ secrets.BOT_TOKEN }}

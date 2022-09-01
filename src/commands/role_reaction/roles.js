@@ -17,12 +17,10 @@ module.exports = {
      */
     run: async function (client, interaction, options) {
 
-        const asstesGuild = await client.guilds.fetch(process.env.ASSETS_GUILD_ID);
-
-        const redA_emoji = asstesGuild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_a');
-        const redB_emoji = asstesGuild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_b');
-        const redC_emoji = asstesGuild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_c');
-        const redD_emoji = asstesGuild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_d');
+        const redA_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_a');
+        const redB_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_b');
+        const redC_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_c');
+        const redD_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'red_regional_indicator_d');
         const Peip_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'Peip');
         const ESE_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'ESE');
         const AII_emoji = interaction.guild.emojis.cache.find(emoji => emoji.name === 'AII');

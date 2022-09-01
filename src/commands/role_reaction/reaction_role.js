@@ -144,7 +144,7 @@ async function add(client, interaction, options, message_id, reaction) {
     setDatabase(client, interaction.guildId, message_id, db);
 
     (await interaction.channel.messages.fetch(message_id)).react(reaction)
-    interaction.editReply("**Done !**    ( " + reaction + "   ->   " + role + " )");
+    interaction.editReply("**Done !**    ( " + reaction + "   ->   " + role.name + " )");
 }
 
 /**

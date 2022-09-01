@@ -12,7 +12,12 @@ module.exports = {
      * @returns 
      */
     getDatabase: (client, guildId, messageId) => {
-        return client.database.reactionRole.get(`${guildId}.${messageId}`);
+        let db = client.database.reactionRole.get(`${guildId}.${messageId}`);
+        if (db === null) {
+            db = [];
+            client.database.reactionRole.set(`${guildId}.${messageId}`, db);
+        }
+        return db;
     },
 
     /**
